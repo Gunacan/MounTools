@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Loader, Dimmer } from 'semantic-ui-react'
 import './App.css';
 import HeaderComponent from './components/HeaderComponent'
 import CardsComponent from './components/CardsComponent'
@@ -7,7 +8,8 @@ import Footer from './components/Footer'
 
 class App extends Component {
   state = {
-    activities: []
+    activities: [],
+    isLoaded: false
   }
 
   componentDidMount = () => {
@@ -15,8 +17,10 @@ class App extends Component {
       .then(response => response.json())
       .then(data => {
         this.setState({
-          activities: data
+          activities: data,
+          isLoaded: true
         })
+        // setTimeout(() => this.setState({ isLoaded: true }), 1500)
       })
   }
   
@@ -24,7 +28,14 @@ class App extends Component {
     return (
       <React.Fragment>
         <HeaderComponent />
-        <CardsComponent activities={this.state.activities}/>
+        { !this.state.isLoaded 
+          ? (
+            <Dimmer active>
+              <Loader />
+            </Dimmer>
+          ) 
+          : (<CardsComponent {...this.state}/>) }
+        
         <Footer />
       </React.Fragment>
     )
