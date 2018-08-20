@@ -20,7 +20,6 @@ class App extends Component {
           activities: data,
           isLoaded: true
         })
-        // setTimeout(() => this.setState({ isLoaded: true }), 1500)
       })
   }
   
